@@ -57,9 +57,7 @@ jobs:
               echo "🍏 This job's status is ${{ job.status }}."
               whoami    # runner
               pwd       # /home/runner/work/iiab/iiab == $GITHUB_WORKSPACE == ${{ github.workspace }}
-              #mkdir /opt/iiab
-              #mv /home/actions/temp/arm-runner/mnt/iiab /opt/iiab
-              #mkdir $GITHUB_WORKSPACE    # OR SUBSEQUENT STEPS WILL FAIL ('working-directory: /opt/iiab/iiab' hacks NOT worth it!)
+              ls /opt/iiab
               sudo mkdir /etc/iiab
               sudo cp /opt/iiab/iiab/vars/local_vars_none.yml /etc/iiab/local_vars.yml
               sudo /opt/iiab/iiab/scripts/ansible
