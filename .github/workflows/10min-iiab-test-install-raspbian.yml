@@ -28,9 +28,9 @@ jobs:
           base_image: raspios_lite_arm64:latest
           cpu_info: raspberrypi_zero2_w_arm64_w
     steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      - name: Check out repository code
+      #- run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      #- run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      #- name: Check out repository code
       - uses: actions/checkout@v2
       - uses: pguyot/arm-runner-action@v2
         with:
