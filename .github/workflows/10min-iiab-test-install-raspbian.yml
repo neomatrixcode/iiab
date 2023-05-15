@@ -26,7 +26,7 @@ jobs:
         - arch: aarch64
           cpu: cortex-a53
           base_image: raspios_lite_arm64:latest
-          cpu_info: raspberrypi_zero2_w_arm64_w
+          cpu_info: cpuinfo/raspberrypi_zero2_w_arm64
     steps:
       #- run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       #- run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
