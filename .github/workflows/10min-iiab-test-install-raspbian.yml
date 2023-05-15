@@ -50,18 +50,18 @@ jobs:
           base_image: ${{ matrix.base_image }}
           cpu: ${{ matrix.cpu }}
           cpu_info: ${{ matrix.cpu_info }}
-          copy_repository_path: /opt/iiab
+          copy_repository_path: /opt/iiab/iiab
           commands: |
               test `uname -m` = ${{ matrix.arch }}
               grep Model /proc/cpuinfo
               echo "🍏 This job's status is ${{ job.status }}."
               whoami    # runner
               pwd       # /home/runner/work/iiab/iiab == $GITHUB_WORKSPACE == ${{ github.workspace }}
-              ls /opt/iiab
+              ls /opt/iiab/iiab
               sudo mkdir /etc/iiab
-              sudo cp /opt/iiab/vars/local_vars_none.yml /etc/iiab/local_vars.yml
-              sudo /opt/iiab/scripts/ansible
+              sudo cp /opt/iiab/iiab/vars/local_vars_none.yml /etc/iiab/local_vars.yml
+              sudo /opt/iiab/iiab/scripts/ansible
               sudo ./iiab-install
-              cd /opt/iiab
+              cd /opt/iiab/iiab
               iiab-summary
               cat /etc/iiab/iiab_state.yml
