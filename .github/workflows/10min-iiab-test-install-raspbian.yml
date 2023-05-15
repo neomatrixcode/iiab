@@ -59,9 +59,9 @@ jobs:
               pwd       # /home/runner/work/iiab/iiab == $GITHUB_WORKSPACE == ${{ github.workspace }}
               ls /opt/iiab
               sudo mkdir /etc/iiab
-              sudo cp /opt/iiab/iiab/vars/local_vars_none.yml /etc/iiab/local_vars.yml
-              sudo /opt/iiab/iiab/scripts/ansible
+              sudo cp /opt/iiab/vars/local_vars_none.yml /etc/iiab/local_vars.yml
+              sudo /opt/iiab/scripts/ansible
               sudo ./iiab-install
-              cd /opt/iiab/iiab
+              cd /opt/iiab
               iiab-summary
               cat /etc/iiab/iiab_state.yml
