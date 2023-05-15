@@ -50,14 +50,15 @@ jobs:
           base_image: ${{ matrix.base_image }}
           cpu: ${{ matrix.cpu }}
           cpu_info: ${{ matrix.cpu_info }}
+          copy_repository_path: /opt/iiab
           commands: |
               test `uname -m` = ${{ matrix.arch }}
               grep Model /proc/cpuinfo
               echo "🍏 This job's status is ${{ job.status }}."
               whoami    # runner
               pwd       # /home/runner/work/iiab/iiab == $GITHUB_WORKSPACE == ${{ github.workspace }}
-              mkdir /opt/iiab
-              mv /home/actions/temp/arm-runner/mnt/iiab /opt/iiab
+              #mkdir /opt/iiab
+              #mv /home/actions/temp/arm-runner/mnt/iiab /opt/iiab
               #mkdir $GITHUB_WORKSPACE    # OR SUBSEQUENT STEPS WILL FAIL ('working-directory: /opt/iiab/iiab' hacks NOT worth it!)
               sudo mkdir /etc/iiab
               sudo cp /opt/iiab/iiab/vars/local_vars_none.yml /etc/iiab/local_vars.yml
