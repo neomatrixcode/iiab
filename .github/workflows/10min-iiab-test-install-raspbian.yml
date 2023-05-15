@@ -23,10 +23,22 @@ jobs:
       matrix:
         arch: [aarch64]
         include:
+        #- target: zero_raspbian
+        #  cpu: arm1176
+        #  cpu_info: cpuinfo/raspberrypi_zero_w
+        #  base_image: raspbian_lite:latest
+        #- target: zero_raspios
+        #  cpu: arm1176
+        #  cpu_info: cpuinfo/raspberrypi_zero_w
+        #  base_image: raspios_lite:latest
+        #- target: zero2_raspios
+        #  cpu: cortex-a7
+        #  cpu_info: cpuinfo/raspberrypi_zero2_w
+        #  base_image: raspios_lite:latest
         - arch: aarch64
           cpu: cortex-a53
-          base_image: raspios_lite_arm64:latest
           cpu_info: cpuinfo/raspberrypi_zero2_w_arm64
+          base_image: raspios_lite_arm64:latest
     steps:
       #- run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       #- run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
@@ -41,30 +53,16 @@ jobs:
           commands: |
               test `uname -m` = ${{ matrix.arch }}
               grep Model /proc/cpuinfo
-      #- run: echo "🍏 This job's status is ${{ job.status }}."
-      #- name: GitHub Actions "runner" environment
-      #  run: |
-      #    whoami    # runner
-      #    pwd       # /home/runner/work/iiab/iiab == $GITHUB_WORKSPACE == ${{ github.workspace }}
-      #    # ls
-      #    # ls $GITHUB_WORKSPACE
-      #    # ls ${{ github.workspace }}
-      #    # ls -la /opt    # az, containerd, google, hostedtoolcache, microsoft, mssql-tools, pipx, pipx_bin, post-generation, runner, vsts
-      #    # apt update
-      #    # apt dist-upgrade -y
-      #    # apt autoremove -y
-      #- name: Set up /opt/iiab/iiab
-      #  run: |
-      #    mkdir /opt/iiab
-      #    mv $GITHUB_WORKSPACE /opt/iiab
-      #    mkdir $GITHUB_WORKSPACE    # OR SUBSEQUENT STEPS WILL FAIL ('working-directory: /opt/iiab/iiab' hacks NOT worth it!)
-      #- name: Set up /etc/iiab/local_vars.yml
-      #  run: |
-      #    sudo mkdir /etc/iiab
-      #    # touch /etc/iiab/local_vars.yml
-      #    sudo cp /opt/iiab/iiab/vars/local_vars_none.yml /etc/iiab/local_vars.yml
-      #- run: sudo /opt/iiab/iiab/scripts/ansible
-      #- run: sudo ./iiab-install
-      #  working-directory: /opt/iiab/iiab
-      #- run: iiab-summary
-      #- run: cat /etc/iiab/iiab_state.yml
+              echo "🍏 This job's status is ${{ job.status }}."
+              whoami    # runner
+              pwd       # /home/runner/work/iiab/iiab == $GITHUB_WORKSPACE == ${{ github.workspace }}
+              mkdir /opt/iiab
+              mv $GITHUB_WORKSPACE /opt/iiab
+              mkdir $GITHUB_WORKSPACE    # OR SUBSEQUENT STEPS WILL FAIL ('working-directory: /opt/iiab/iiab' hacks NOT worth it!)
+              sudo mkdir /etc/iiab
+              sudo cp /opt/iiab/iiab/vars/local_vars_none.yml /etc/iiab/local_vars.yml
+              sudo /opt/iiab/iiab/scripts/ansible
+              sudo ./iiab-install
+              cd /opt/iiab/iiab
+              iiab-summary
+              cat /etc/iiab/iiab_state.yml
