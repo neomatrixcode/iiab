@@ -57,6 +57,8 @@ jobs:
               echo "🍏 This job's status is ${{ job.status }}."
               whoami    # runner
               pwd       # /home/runner/work/iiab/iiab == $GITHUB_WORKSPACE == ${{ github.workspace }}
+              sudo apt-get update -y --allow-releaseinfo-change
+              sudo apt-get install --no-install-recommends -y git
               ls /opt/iiab/iiab
               sudo mkdir /etc/iiab
               sudo cp /opt/iiab/iiab/vars/local_vars_none.yml /etc/iiab/local_vars.yml
