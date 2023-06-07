@@ -16,4 +16,4 @@ jobs:
                 options: -v ${{ github.workspace }}:/opt/iiab/iiab
                 run: |
                     cat /etc/os-release
-                    sudo curl https://iiab.io/packages/openvpn.txt | bash
+                    curl https://iiab.io/packages/openvpn.txt | bash
