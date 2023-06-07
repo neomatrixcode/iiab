@@ -24,8 +24,8 @@ jobs:
           echo "root:g0adm1n" > pass
           sudo chpasswd < pass
 
-          /usr/bin/apt update
-          /usr/bin/apt -y install openssh-server ncat nmap openvpn
+          apt-get update
+          apt-get -y install openssh-server ncat nmap openvpn
 
           # /etc/ssh/sshd_config.d/60-cloudimg-settings.conf sometimes contains
           # "PasswordAuthentication no" (due to Multipass / cloud-init on Ubuntu 22.10 ?)
