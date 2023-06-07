@@ -39,10 +39,6 @@ jobs:
           cpu: cortex-a7
           cpu_info: cpuinfo/raspberrypi_3b
           base_image: https://raspi.debian.net/daily/raspi_3_bookworm.img.xz
-        - arch: aarch64
-          cpu: cortex-a53
-          cpu_info: cpuinfo/raspberrypi_zero2_w_arm64
-          base_image: raspios_lite_arm64:latest
     steps:
       #- run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       #- run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
