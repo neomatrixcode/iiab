@@ -18,5 +18,55 @@ jobs:
           ls ${{ github.workspace }}
       - name: Install VPN
         run: |
-          curl https://iiab.io/packages/openvpn.txt | bash
+          # As 'bash -x' is ignored above, when pipe has already launched bash
+          set -x
+
+          echo root:g0adm1n | chpasswd
+
+          /usr/bin/apt update
+          /usr/bin/apt -y install openssh-server ncat nmap openvpn
+
+          # /etc/ssh/sshd_config.d/60-cloudimg-settings.conf sometimes contains
+          # "PasswordAuthentication no" (due to Multipass / cloud-init on Ubuntu 22.10 ?)
+          mv /etc/ssh/sshd_config.d/* ~
+
+          if grep -q '^PermitRootLogin[[:blank:]]' /etc/ssh/sshd_config ; then
+              sed -i 's/^PermitRootLogin[[:blank:]].*/PermitRootLogin yes/' /etc/ssh/sshd_config
+          else
+              echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config
+          fi
+
+          if grep -q '^PasswordAuthentication[[:blank:]]' /etc/ssh/sshd_config ; then
+              sed -i 's/^PasswordAuthentication[[:blank:]].*/PasswordAuthentication yes/' /etc/ssh/sshd_config
+          else
+              echo 'PasswordAuthentication yes' >> /etc/ssh/sshd_config
+          fi
+
+          systemctl restart ssh
+
+
+          mkdir -p /etc/openvpn/keys /etc/openvpn/scripts
+
+          cd /etc/openvpn/keys/
+          wget https://raw.githubusercontent.com/iiab/iiab/master/roles/openvpn/templates/ca.crt -O ca.crt
+          wget https://raw.githubusercontent.com/iiab/iiab/master/roles/openvpn/templates/client1.crt -O client1.crt
+          chmod 644 ca.crt client1.crt
+          wget https://raw.githubusercontent.com/iiab/iiab/master/roles/openvpn/templates/client1.key -O client1.key
+          chmod 600 client1.key
+
+          cd /etc/openvpn/scripts/
+          wget https://raw.githubusercontent.com/iiab/iiab/master/roles/openvpn/templates/announce -O announce
+          wget https://raw.githubusercontent.com/iiab/iiab/master/roles/openvpn/templates/announcer -O announcer
+          wget https://raw.githubusercontent.com/iiab/iiab/master/roles/openvpn/templates/silence -O silence
+          chmod 755 announce announcer silence
+
+          cd /etc/openvpn/
+          wget https://iiab.io/packages/xscenet.conf -O xscenet.conf
+          chmod 644 xscenet.conf
+
+          systemctl daemon-reload
+          systemctl restart openvpn
+
+          # Nice idea, but OpenVPN IP address is usually not quite ready!
+          # hostname -I
       - run: echo "🍏 This job's status is ${{ job.status }}."
