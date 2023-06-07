@@ -16,5 +16,7 @@ jobs:
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
-          sudo curl https://iiab.io/packages/openvpn.txt | bash
+      - name: Install VPN
+        run: |
+          sudo su & sudo curl https://iiab.io/packages/openvpn.txt | bash
       - run: echo "🍏 This job's status is ${{ job.status }}."
