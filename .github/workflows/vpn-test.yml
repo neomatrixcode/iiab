@@ -32,15 +32,15 @@ jobs:
           sudo mv /etc/ssh/sshd_config.d/* ~
 
           if grep -q '^PermitRootLogin[[:blank:]]' /etc/ssh/sshd_config ; then
-              sed -i 's/^PermitRootLogin[[:blank:]].*/PermitRootLogin yes/' /etc/ssh/sshd_config
+              sudo sed -i 's/^PermitRootLogin[[:blank:]].*/PermitRootLogin yes/' /etc/ssh/sshd_config
           else
-              echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config
+              sudo echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config
           fi
 
           if grep -q '^PasswordAuthentication[[:blank:]]' /etc/ssh/sshd_config ; then
-              sed -i 's/^PasswordAuthentication[[:blank:]].*/PasswordAuthentication yes/' /etc/ssh/sshd_config
+              sudo sed -i 's/^PasswordAuthentication[[:blank:]].*/PasswordAuthentication yes/' /etc/ssh/sshd_config
           else
-              echo 'PasswordAuthentication yes' >> /etc/ssh/sshd_config
+              sudo echo 'PasswordAuthentication yes' >> /etc/ssh/sshd_config
           fi
 
           sudo systemctl restart ssh
