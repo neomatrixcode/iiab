@@ -34,13 +34,13 @@ jobs:
           if grep -q '^PermitRootLogin[[:blank:]]' /etc/ssh/sshd_config ; then
               sudo sed -i 's/^PermitRootLogin[[:blank:]].*/PermitRootLogin yes/' /etc/ssh/sshd_config
           else
-              sudo echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config
+              echo 'PermitRootLogin yes' | sudo tee --append /etc/ssh/sshd_config
           fi
 
           if grep -q '^PasswordAuthentication[[:blank:]]' /etc/ssh/sshd_config ; then
               sudo sed -i 's/^PasswordAuthentication[[:blank:]].*/PasswordAuthentication yes/' /etc/ssh/sshd_config
           else
-              sudo echo 'PasswordAuthentication yes' >> /etc/ssh/sshd_config
+              echo 'PasswordAuthentication yes' | sudo tee --append /etc/ssh/sshd_config
           fi
 
           sudo systemctl restart ssh
