@@ -46,27 +46,27 @@ jobs:
           sudo systemctl restart ssh
 
 
-          mkdir -p /etc/openvpn/keys /etc/openvpn/scripts
+          sudo mkdir -p /etc/openvpn/keys /etc/openvpn/scripts
 
-          cd /etc/openvpn/keys/
-          wget https://raw.githubusercontent.com/iiab/iiab/master/roles/openvpn/templates/ca.crt -O ca.crt
-          wget https://raw.githubusercontent.com/iiab/iiab/master/roles/openvpn/templates/client1.crt -O client1.crt
-          chmod 644 ca.crt client1.crt
-          wget https://raw.githubusercontent.com/iiab/iiab/master/roles/openvpn/templates/client1.key -O client1.key
-          chmod 600 client1.key
+          sudo cd /etc/openvpn/keys/
+          sudo wget https://raw.githubusercontent.com/iiab/iiab/master/roles/openvpn/templates/ca.crt -O ca.crt
+          sudo wget https://raw.githubusercontent.com/iiab/iiab/master/roles/openvpn/templates/client1.crt -O client1.crt
+          sudo chmod 644 ca.crt client1.crt
+          sudo wget https://raw.githubusercontent.com/iiab/iiab/master/roles/openvpn/templates/client1.key -O client1.key
+          sudo chmod 600 client1.key
 
-          cd /etc/openvpn/scripts/
-          wget https://raw.githubusercontent.com/iiab/iiab/master/roles/openvpn/templates/announce -O announce
-          wget https://raw.githubusercontent.com/iiab/iiab/master/roles/openvpn/templates/announcer -O announcer
-          wget https://raw.githubusercontent.com/iiab/iiab/master/roles/openvpn/templates/silence -O silence
-          chmod 755 announce announcer silence
+          sudo cd /etc/openvpn/scripts/
+          sudo wget https://raw.githubusercontent.com/iiab/iiab/master/roles/openvpn/templates/announce -O announce
+          sudo wget https://raw.githubusercontent.com/iiab/iiab/master/roles/openvpn/templates/announcer -O announcer
+          sudo wget https://raw.githubusercontent.com/iiab/iiab/master/roles/openvpn/templates/silence -O silence
+          sudo chmod 755 announce announcer silence
 
-          cd /etc/openvpn/
-          wget https://iiab.io/packages/xscenet.conf -O xscenet.conf
-          chmod 644 xscenet.conf
+          sudo cd /etc/openvpn/
+          sudo wget https://iiab.io/packages/xscenet.conf -O xscenet.conf
+          sudo chmod 644 xscenet.conf
 
-          systemctl daemon-reload
-          systemctl restart openvpn
+          sudo systemctl daemon-reload
+          sudo systemctl restart openvpn
 
           # Nice idea, but OpenVPN IP address is usually not quite ready!
           # hostname -I
