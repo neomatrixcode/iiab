@@ -35,6 +35,10 @@ jobs:
         #  cpu: cortex-a7
         #  cpu_info: cpuinfo/raspberrypi_zero2_w
         #  base_image: raspios_lite:latest
+        - arch: raspios12
+          cpu: cortex-a7
+          cpu_info: cpuinfo/raspberrypi_3b
+          base_image: https://raspi.debian.net/daily/raspi_3_bookworm.img.xz
         - arch: aarch64
           cpu: cortex-a53
           cpu_info: cpuinfo/raspberrypi_zero2_w_arm64
@@ -57,13 +61,13 @@ jobs:
               echo "🍏 This job's status is ${{ job.status }}."
               whoami    # runner
               pwd       # /home/runner/work/iiab/iiab == $GITHUB_WORKSPACE == ${{ github.workspace }}
-              sudo apt-get update -y --allow-releaseinfo-change
-              sudo apt-get install --no-install-recommends -y git
+              apt-get update -y --allow-releaseinfo-change
+              apt-get install --no-install-recommends -y git
               ls /opt/iiab/iiab
-              sudo mkdir /etc/iiab
-              sudo cp /opt/iiab/iiab/vars/local_vars_none.yml /etc/iiab/local_vars.yml
-              sudo /opt/iiab/iiab/scripts/ansible
-              sudo ./iiab-install
+              mkdir /etc/iiab
+              cp /opt/iiab/iiab/vars/local_vars_none.yml /etc/iiab/local_vars.yml
+              /opt/iiab/iiab/scripts/ansible
+              ./iiab-install
               cd /opt/iiab/iiab
               iiab-summary
               cat /etc/iiab/iiab_state.yml
