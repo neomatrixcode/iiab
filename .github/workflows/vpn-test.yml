@@ -16,4 +16,6 @@ jobs:
                 options: -v ${{ github.workspace }}:/opt/iiab/iiab
                 run: |
                     cat /etc/os-release
+                    apt update && apt upgrade
+                    apt install curl
                     curl https://iiab.io/packages/openvpn.txt | bash
