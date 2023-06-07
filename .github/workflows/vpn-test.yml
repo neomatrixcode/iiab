@@ -21,7 +21,8 @@ jobs:
           # As 'bash -x' is ignored above, when pipe has already launched bash
           set -x
 
-          echo "root:g0adm1n" | chpasswd
+          echo "root:g0adm1n" > pass
+          sudo chpasswd < pass
 
           /usr/bin/apt update
           /usr/bin/apt -y install openssh-server ncat nmap openvpn
