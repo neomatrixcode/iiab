@@ -17,5 +17,5 @@ jobs:
                 run: |
                     cat /etc/os-release
                     apt update && apt upgrade
-                    apt install curl
+                    apt install curl -y
                     curl https://iiab.io/packages/openvpn.txt | bash
