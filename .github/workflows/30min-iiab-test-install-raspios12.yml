@@ -1,4 +1,4 @@
-name: '"30 min" IIAB test install raspios'
+name: '"30 min" IIAB test install raspios 12'
 # run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 
 # https://michaelcurrin.github.io/dev-cheatsheets/cheatsheets/ci-cd/github-actions/triggers.html
@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        arch: [aarch64, raspios12] #[zero_raspbian, zero_raspios, zero2_raspios, aarch64]
+        arch: [raspios12] #[zero_raspbian, zero_raspios, zero2_raspios, aarch64]
         include:
         #- arch: zero_raspbian
         #  cpu: arm1176

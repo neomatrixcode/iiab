@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        arch: [aarch64, raspios12] #[zero_raspbian, zero_raspios, zero2_raspios, aarch64]
+        arch: [aarch64] #[zero_raspbian, zero_raspios, zero2_raspios, aarch64]
         include:
         #- arch: zero_raspbian
         #  cpu: arm1176
