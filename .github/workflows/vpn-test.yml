@@ -13,7 +13,7 @@ jobs:
             uses: addnab/docker-run-action@v3
             with:
                 image: ubuntu:22.04
-                options: -v /sys/fs/cgroup/:/sys/fs/cgroup:ro -v ${{ github.workspace }}:/opt/iiab/iiab --privileged
+                options: -v /sys/fs/cgroup/:/sys/fs/cgroup:ro -v ${{ github.workspace }}:/opt/iiab/iiab --cap-add SYS_ADMIN
                 run: |
                     cat /etc/os-release
                     apt update && apt upgrade
