@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        arch: [aarch64] #[zero_raspbian, zero_raspios, zero2_raspios, aarch64]
+        arch: [aarch64, raspios12] #[zero_raspbian, zero_raspios, zero2_raspios, aarch64]
         include:
         #- arch: zero_raspbian
         #  cpu: arm1176
@@ -39,6 +39,10 @@ jobs:
           cpu: cortex-a53
           cpu_info: cpuinfo/raspberrypi_zero2_w_arm64
           base_image: raspios_lite_arm64:latest
+        - arch: raspios12
+          cpu: cortex-a53
+          cpu_info: cpuinfo/raspberrypi_zero2_w_arm64
+          base_image: https://laotzu.ftp.acc.umu.se/cdimage/unofficial/raspi//daily/raspi_4_bookworm.img.xz
     steps:
       #- run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       #- run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
