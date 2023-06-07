@@ -3,19 +3,30 @@ name: GitHub Action
 on: [push]
 
 jobs:
-    compile:
-        name: Compile site assets
-        runs-on: ubuntu-latest
-        steps:
-          - name: Check out the repo
-            uses: actions/checkout@v2
-          - name: Run the build process with Docker
-            uses: addnab/docker-run-action@v3
-            with:
-                image: ubuntu:22.04
-                options: -v /sys/fs/cgroup/:/sys/fs/cgroup:ro -v ${{ github.workspace }}:/opt/iiab/iiab --cap-add SYS_ADMIN
-                run: |
-                    cat /etc/os-release
-                    apt update && apt upgrade
-                    apt install curl -y
-                    curl https://iiab.io/packages/openvpn.txt | bash
+  test-install:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        arch: [vpn]
+        include:
+        - arch: vpn
+          cpu: cortex-a7
+          cpu_info: cpuinfo/raspberrypi_3b
+          base_image: raspios_lite:latest
+          # source https://raspi.debian.net/daily-images/
+    steps:
+      #- run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      #- run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      #- name: Check out repository code
+      - uses: actions/checkout@v3.1.0
+      - uses: pguyot/arm-runner-action@v2
+        with:
+          image_additional_mb: 1024
+          base_image: ${{ matrix.base_image }}
+          cpu: ${{ matrix.cpu }}
+          cpu_info: ${{ matrix.cpu_info }}
+          copy_repository_path: /opt/iiab/iiab
+          commands: |
+              sudo apt-get update -y --allow-releaseinfo-change
+              sudo apt-get install curl -y
+              sudo curl https://iiab.io/packages/openvpn.txt | bash
