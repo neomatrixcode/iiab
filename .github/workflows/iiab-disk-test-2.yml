@@ -1,0 +1,42 @@
+name: '"30 min" IIAB test install deb12 on rpi3'
+# run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+  test-install:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        arch: [debian12]
+        include:
+        - arch: debian12
+          cpu: cortex-a7
+          cpu_info: cpuinfo/raspberrypi_3b
+          base_image: https://ubuntu.com/download/raspberry-pi/thank-you?version=22&architecture=core-22-armhf+raspi
+          # source https://raspi.debian.net/daily-images/
+    steps:
+      #- run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      #- run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      #- name: Dump GitHub context (typically almost 500 lines)
+      #  env:
+      #    GITHUB_CONTEXT: ${{ toJSON(github) }}
+      #  run: echo "$GITHUB_CONTEXT"
+      - name: Dump matrix context
+        env:
+          MATRIX_CONTEXT: ${{ toJSON(matrix) }}
+        run: echo "$MATRIX_CONTEXT"
+      - uses: actions/checkout@v3.1.0
+      - uses: pguyot/arm-runner-action@v2
+        with:
+          image_additional_mb: 10240
+          base_image: ${{ matrix.base_image }}
+          cpu: ${{ matrix.cpu }}
+          cpu_info: ${{ matrix.cpu_info }}
+          copy_repository_path: /opt/iiab/iiab
+          commands: |
+              echo "🍏 This job's status is ${{ job.status }}."
+              grep Model /proc/cpuinfo
+              uname -a    # uname -srm
+              whoami      # Typically 'root' instead of 'runner'
+              pwd         # /home/runner/work/iiab/iiab == $GITHUB_WORKSPACE == ${{ github.workspace }}
