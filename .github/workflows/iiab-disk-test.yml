@@ -44,7 +44,7 @@ jobs:
               apt-get install --no-install-recommends -y git
               ls /opt/iiab/iiab
               mkdir /etc/iiab
-              cp /opt/iiab/iiab/vars/local_vars_none.yml /etc/iiab/local_vars.yml
+              cp /opt/iiab/iiab/vars/local_vars_large.yml /etc/iiab/local_vars.yml
               /opt/iiab/iiab/scripts/ansible
               ./iiab-install
               cd /opt/iiab/iiab
