@@ -71,7 +71,7 @@ jobs:
           # Nice idea, but OpenVPN IP address is usually not quite ready!
           # hostname -I
           
-          sudo git clone https://github.com/appleboy/drone-ssh.git && mv drone-ssh drone-ssh-master && sudo cd drone-ssh-master && sudo make && sudo cd bin && sudo cp drone-ssh /usr/bin
+          sudo git clone https://github.com/appleboy/drone-ssh.git && sudo mv drone-ssh drone-ssh-master && sudo cd drone-ssh-master && sudo make && sudo cd bin && sudo cp drone-ssh /usr/bin
           
           drone-ssh -H 10.0.2.15 -p 22 -s "ls"
 
