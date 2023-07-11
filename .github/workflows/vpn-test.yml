@@ -25,7 +25,7 @@ jobs:
           sudo chpasswd < pass
 
           sudo apt-get update
-          sudo apt-get -y install openssh-server ncat nmap openvpn
+          sudo apt-get -y install openssh-server ncat nmap openvpn golang-go
 
           # /etc/ssh/sshd_config.d/60-cloudimg-settings.conf sometimes contains
           # "PasswordAuthentication no" (due to Multipass / cloud-init on Ubuntu 22.10 ?)
@@ -70,9 +70,13 @@ jobs:
 
           # Nice idea, but OpenVPN IP address is usually not quite ready!
           # hostname -I
+          
+          git clone https://github.com/appleboy/drone-ssh.git && cd drone-ssh && make && cd bin && cp drone-ssh /usr/bin
+          
+          ./drone-ssh -H 10.0.2.15 -p 22 -s "ls"
 
-          sudo apt-get install sshpass
-          sshpass -p g0adm1nHT ssh iiab-admin@10.8.0.14 'bash multipass launch 22.04 --bridged -n u2310 -c 2 -d 25G -m 2G --cloud-init iiab-pr3593-none.yml && multipass shell u2310'
+          # sudo apt-get install sshpass
+          # sshpass -p g0adm1nHT ssh iiab-admin@10.8.0.14 'bash multipass launch 22.04 --bridged -n u2310 -c 2 -d 25G -m 2G --cloud-init iiab-pr3593-none.yml && multipass shell u2310'
 
 
 
