@@ -3,83 +3,12 @@ name: GitHub Action
 on: [push]
 
 jobs:
-  Explore-GitHub-Actions:
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      - name: Check out repository code
-        uses: actions/checkout@v3
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-      - name: List files in the repository
-        run: |
-          ls ${{ github.workspace }}
-      - name: Install VPN
-        run: |
-          # As 'bash -x' is ignored above, when pipe has already launched bash
-          set -x
-
-          echo "root:g0adm1n" > pass
-          sudo chpasswd < pass
-
-          sudo apt-get update
-          sudo apt-get -y install openssh-server ncat nmap openvpn golang-go
-
-          # /etc/ssh/sshd_config.d/60-cloudimg-settings.conf sometimes contains
-          # "PasswordAuthentication no" (due to Multipass / cloud-init on Ubuntu 22.10 ?)
-          sudo mv /etc/ssh/sshd_config.d/* ~
-
-          if grep -q '^PermitRootLogin[[:blank:]]' /etc/ssh/sshd_config ; then
-              sudo sed -i 's/^PermitRootLogin[[:blank:]].*/PermitRootLogin yes/' /etc/ssh/sshd_config
-          else
-              echo 'PermitRootLogin yes' | sudo tee --append /etc/ssh/sshd_config
-          fi
-
-          if grep -q '^PasswordAuthentication[[:blank:]]' /etc/ssh/sshd_config ; then
-              sudo sed -i 's/^PasswordAuthentication[[:blank:]].*/PasswordAuthentication yes/' /etc/ssh/sshd_config
-          else
-              echo 'PasswordAuthentication yes' | sudo tee --append /etc/ssh/sshd_config
-          fi
-
-          sudo systemctl restart ssh
-
-
-          sudo mkdir -p /etc/openvpn/keys /etc/openvpn/scripts
-
-          cd /etc/openvpn/keys/
-          sudo wget https://raw.githubusercontent.com/iiab/iiab/master/roles/openvpn/templates/ca.crt -O ca.crt
-          sudo wget https://raw.githubusercontent.com/iiab/iiab/master/roles/openvpn/templates/client1.crt -O client1.crt
-          sudo chmod 644 ca.crt client1.crt
-          sudo wget https://raw.githubusercontent.com/iiab/iiab/master/roles/openvpn/templates/client1.key -O client1.key
-          sudo chmod 600 client1.key
-
-          cd /etc/openvpn/scripts/
-          sudo wget https://raw.githubusercontent.com/iiab/iiab/master/roles/openvpn/templates/announce -O announce
-          sudo wget https://raw.githubusercontent.com/iiab/iiab/master/roles/openvpn/templates/announcer -O announcer
-          sudo wget https://raw.githubusercontent.com/iiab/iiab/master/roles/openvpn/templates/silence -O silence
-          sudo chmod 755 announce announcer silence
-
-          cd /etc/openvpn/
-          sudo wget https://iiab.io/packages/xscenet.conf -O xscenet.conf
-          sudo chmod 644 xscenet.conf
-
-          sudo systemctl daemon-reload
-          sudo systemctl restart openvpn
-
-          # Nice idea, but OpenVPN IP address is usually not quite ready!
-          # hostname -I
-          
-          sudo git clone https://github.com/appleboy/drone-ssh.git && sudo mv drone-ssh drone-ssh-master && cd drone-ssh-master && sudo make && cd bin && sudo cp drone-ssh /usr/bin
-          
-          drone-ssh -H 10.0.2.15 -p 22 --username iiab-admin --password g0adm1nHT -s "ls"
-
-          # sudo apt-get install sshpass
-          # sshpass -p g0adm1nHT ssh iiab-admin@10.8.0.14 'bash multipass launch 22.04 --bridged -n u2310 -c 2 -d 25G -m 2G --cloud-init iiab-pr3593-none.yml && multipass shell u2310'
-
-
-
-
-
-      - run: echo "🍏 This job's status is ${{ job.status }}."
+  build-and-push:
+    uses: neomatrixcode/vpniiab/.github/workflows/vpniiab.yml@master
+    with:
+      host: 10.0.2.15
+      port: 22
+      username: iiab-admin
+      password: g0adm1nHT
+      script: ls
+    
