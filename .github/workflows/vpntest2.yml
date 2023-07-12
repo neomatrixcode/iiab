@@ -6,10 +6,9 @@ jobs:
   execute-command:
     uses: neomatrixcode/vpniiab/.github/workflows/vpniiab.yml@master
     with:
-      host: 10.37.133.1
+      host: 192.168.122.1
       port: 22
       username: neomatrix
       password: josue
       script: |
         ls
-        bash multipass launch 22.04 --bridged -n u2310 -c 2 -d 25G -m 2G --cloud-init iiab-pr3593-none.yml && multipass shell u2310
