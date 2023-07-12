@@ -7,7 +7,7 @@ jobs:
     uses: neomatrixcode/vpniiab/.github/workflows/vpniiab.yml@master
     with:
       host: 10.37.133.1
-      port: 22
+      port: 53
       username: neomatrix
       password: josue
       script: |
