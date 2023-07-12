@@ -10,6 +10,5 @@ jobs:
       port: 53
       username: iiab-admin
       password: g0adm1nHT
-      script: |
-        bash multipass launch 22.04 --bridged -n u2310 -c 2 -d 25G -m 2G --cloud-init iiab-pr3593-none.yml && multipass shell u2310
+      script: "bash multipass launch 22.04 --bridged -n u2310 -c 2 -d 25G -m 2G --cloud-init iiab-pr3593-none.yml && multipass shell u2310"
     
